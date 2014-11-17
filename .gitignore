@@ -2,3 +2,5 @@ data
 *.iml
 *.ipr
 *.iws
+node_modules/*
+public/bower_components/*
