@@ -21,8 +21,8 @@ router.get('/findCar/:name', function (req, res) {
 });
 
 router.get('/racers', function (req, res) {
-	var cars = req.db.get('racers');
-	cars.find({}, {},
+	var racers = req.db.get('racers');
+	racers.find({}, {},
 		function (e, docs) {
 			res.json(docs);
 		}
@@ -39,43 +39,23 @@ router.get('/racer/:name', function (req, res) {
 	);
 });
 
-
-/* POST to Add User Service */
-router.get('/add', function (req, res) {
-
+router.post('/racer', function (req, res) {
 	// Set our internal DB variable
 	var db = req.db;
 
-	// Get our form values. These rely on the "name" attributes
-	var coll = req.query.coll;
-	var name = req.query.name;
-	var description = req.query.description;
+	var name = req.body.name;
 
-	// Set our collection
-	var collection = null;
-	try {
-		collection = db.get(coll);
-	} catch (ex) {
-	}
+	var racers = db.get('racers');
 
-	if (collection == null) {
-		db.createCollection(coll, function (err, collection) {
-			collection.insert({
-				"name": name,
-				"description": description
-			});
-		});
-	} else {
-		collection.insert({
-			"name": name,
-			"description": description
-		}, function (err, doc) {
-			console.log(err);
-			console.log(doc);
-		});
-	}
-
+	racers.insert({
+		"name": name
+	}, function (err, doc) {
+		console.log(err);
+		console.log(doc);
+	});
 });
+
+
 
 
 module.exports = router;
