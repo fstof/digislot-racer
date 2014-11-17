@@ -1,0 +1,44 @@
+<div class="container-fluid">
+	<h1>Race</h1>
+
+	<div class="container-fluid">
+		<div class="row table-bordered">
+			<div class="col-xs-6 text-center">
+				<h1>{{digi.race.currentLap}} / {{digi.race.laps}}</h1>
+			</div>
+			<div class="col-xs-6">
+				<div class="row">
+					<div class="col-sm-4">
+						<div>Menu</div>
+						<div>
+							<ul>
+								<li><a>Stop Race</a></li>
+								<li><a href="#/home">Home</a></li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<h2>Standings</h2>
+
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-1"><h4>Position</h4></div>
+			<div class="col-sm-2"><h4>Lane</h4></div>
+			<div class="col-sm-1"><h4>Lap</h4></div>
+			<div class="col-sm-5"><h4>Racer</h4></div>
+			<div class="col-sm-3"><h4>Fuel</h4></div>
+		</div>
+		<div ng-repeat="racer in digi.race.racers | orderBy:'pos':false" class="row table-bordered">
+			<div class="col-sm-1">{{racer.pos}}</div>
+			<div class="col-sm-2">{{racer.lane}}</div>
+			<div class="col-sm-1">{{racer.lap}}</div>
+			<div class="col-sm-5">{{racer.name}}</div>
+			<div class="col-sm-3">{{racer.fuel}} / {{digi.race.maxFuel}}</div>
+		</div>
+	</div>
+</div>
+
