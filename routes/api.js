@@ -62,6 +62,19 @@ router.post('/racer', function (req, res) {
 		});
 	});
 });
+router.get('/racer/:name', function (req, res) {
+	var newRacer = {
+		name: req.params.name
+	};
+	dao.connect(function (db, cleanup) {
+		dao.insertRacer(db, newRacer, function (data) {
+			console.log('data is ' + data);
+			// data.success = true;
+			res.json(data);
+			cleanup();
+		});
+	});
+});
 
 
 module.exports = router;

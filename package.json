@@ -14,6 +14,7 @@
     "debug": "~2.0.0",
     "jade": "~1.6.0",
     "socket.io": "^1.2.0",
-    "mongodb": "*"
+    "mongodb": "*",
+    "tingodb": "*"
   }
 }

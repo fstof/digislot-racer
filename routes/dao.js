@@ -4,14 +4,25 @@ var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
 var url = 'mongodb://localhost:27017/digislotRacer';
 
+var Engine = require('tingodb')();
+
 dao.connect = function (callback) {
 	MongoClient.connect(url, function (err, db) {
-		console.log('Connected correctly db: ' + (err == null));
+		console.log('Connected to mongo server: ' + (err == null));
+		if (!err) {
+			callback(db, function () {
+				console.log('closing connection to server');
+				db.close();
+			});
+		} else {
+			var db = new Engine.Db('./data',{});
 
-		callback(db, function () {
-			console.log('closing db');
-			db.close();
-		});
+			console.log('Connected to embeded db: ' + (db != null));
+			callback(db, function () {
+				console.log('closing embeded db');
+				db.close();
+			});
+		}
 	});
 };
 
@@ -34,6 +45,7 @@ dao.findRacer = function (db, name, callback) {
 dao.insertRacer = function (db, racer, callback) {
 	var racers = db.collection('racers');
 	racers.insert(racer, function (err, result) {
+		console.log(err);
 		console.log("insert succeeded: " + (err == null));
 		callback(result);
 	});
