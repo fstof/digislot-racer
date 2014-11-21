@@ -14,9 +14,20 @@ angular.module('fs.digiSlot')
 		this.getCars = function () {
 			var promise = $http.get('/api/cars', {});
 			return promise;
-		}
+		};
+		
 		this.getRacers = function () {
 			var promise = $http.get('/api/racers', {});
+			return promise;
+		};
+		
+		this.saveCar = function (car) {
+			var promise = $http.post('/api/car', car);
+			return promise;
+		}
+
+		this.saveRacer = function (racer) {
+			var promise = $http.post('/api/racer', racer);
 			return promise;
 		}
 	});

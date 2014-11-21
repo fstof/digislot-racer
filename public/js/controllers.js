@@ -27,8 +27,8 @@ angular.module('fs.digiSlot')
 			console.log('then ' + res);
 			$scope.racers = res.data;
 		});
-		racersPromise.catch(function (data) {
-			console.log('catch ' + data);
+		racersPromise.catch(function (res) {
+			console.log('catch ' + res);
 		});
 		racersPromise.finally(function () {
 			console.log('finally ');
@@ -39,12 +39,28 @@ angular.module('fs.digiSlot')
 		$scope.digi = digi;
 	})
 
-	.controller('RacerController', function ($scope) {
+	.controller('RacerController', function ($scope, $location, DataService) {
 		$scope.racer = {};
+		$scope.save = function () {
+			var savePromise = DataService.saveRacer($scope.racer);
+			savePromise.then(function (res) {
+				if (res.data[0].success) {
+					$location.path("home");
+				}
+			});
+		}
 	})
 
-	.controller('CarController', function ($scope) {
+	.controller('CarController', function ($scope, $location, DataService) {
 		$scope.car = {};
+		$scope.save = function () {
+			var savePromise = DataService.saveCar($scope.car);
+			savePromise.then(function (res) {
+				if (res.data[0].success) {
+					$location.path("home");
+				}
+			});
+		}
 	})
 
 	.controller('RaceController', function ($scope, socket, digi) {

@@ -25,8 +25,14 @@ router.post('/car', function (req, res) {
 		description: req.body.description
 	};
 	dao.connect(function (db, cleanup) {
-		dao.insertRacer(db, newCar, function (data) {
-			data.success = true;
+		dao.insertCar(db, newCar, function (data) {
+			if (data) {
+				for (var i = 0; i < data.length; i++) {
+					data[i].success = true;
+				}
+			} else {
+				data = [{success: false}];
+			}
 			res.json(data);
 			cleanup();
 		});
@@ -56,25 +62,17 @@ router.post('/racer', function (req, res) {
 	};
 	dao.connect(function (db, cleanup) {
 		dao.insertRacer(db, newRacer, function (data) {
-			data.success = true;
+			if (data) {
+				for (var i = 0; i < data.length; i++) {
+					data[i].success = true;
+				}
+			} else {
+				data = [{success: false}];
+			}
 			res.json(data);
 			cleanup();
 		});
 	});
 });
-router.get('/racer/:name', function (req, res) {
-	var newRacer = {
-		name: req.params.name
-	};
-	dao.connect(function (db, cleanup) {
-		dao.insertRacer(db, newRacer, function (data) {
-			console.log('data is ' + data);
-			// data.success = true;
-			res.json(data);
-			cleanup();
-		});
-	});
-});
-
 
 module.exports = router;

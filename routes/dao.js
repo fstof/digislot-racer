@@ -7,29 +7,39 @@ var url = 'mongodb://localhost:27017/digislotRacer';
 var Engine = require('tingodb')();
 
 dao.connect = function (callback) {
-	MongoClient.connect(url, function (err, db) {
-		console.log('Connected to mongo server: ' + (err == null));
-		if (!err) {
-			callback(db, function () {
-				console.log('closing connection to server');
-				db.close();
-			});
-		} else {
-			var db = new Engine.Db('./data',{});
 
-			console.log('Connected to embeded db: ' + (db != null));
-			callback(db, function () {
-				console.log('closing embeded db');
-				db.close();
-			});
-		}
+	var db = new Engine.Db('./data',{});
+
+	console.log('Connected to embeded db: ' + (db != null));
+	callback(db, function () {
+		console.log('closing embeded db');
+		db.close();
 	});
+
+
+	//MongoClient.connect(url, function (err, db) {
+	//	console.log('Connected to mongo server: ' + (err == null));
+	//	if (!err) {
+	//		callback(db, function () {
+	//			console.log('closing connection to server');
+	//			db.close();
+	//		});
+	//	} else {
+	//		var db = new Engine.Db('./data',{});
+	//
+	//		console.log('Connected to embeded db: ' + (db != null));
+	//		callback(db, function () {
+	//			console.log('closing embeded db');
+	//			db.close();
+	//		});
+	//	}
+	//});
 };
 
 dao.findRacers = function (db, callback) {
 	var racers = db.collection('racers');
 	racers.find({}).toArray(function (err, docs) {
-		console.log("Found the following racers");
+		console.log("found racers: " + (err == null));
 		console.dir(docs);
 		callback(docs);
 	});
