@@ -21,11 +21,11 @@ angular.module('fs.digiSlot', [
 				templateUrl: 'partials/race.html',
 				controller: 'RaceController'
 			}).
-			when('/newRacer', {
+			when('/racer', {
 				templateUrl: 'partials/racer.html',
 				controller: 'RacerController'
 			}).
-			when('/newCar', {
+			when('/car', {
 				templateUrl: 'partials/car.html',
 				controller: 'CarController'
 			}).

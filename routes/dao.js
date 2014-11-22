@@ -8,7 +8,7 @@ var Engine = require('tingodb')();
 
 dao.connect = function (callback) {
 
-	var db = new Engine.Db('./data',{});
+	var db = new Engine.Db('./data', {});
 
 	console.log('Connected to embeded db: ' + (db != null));
 	callback(db, function () {
@@ -39,7 +39,7 @@ dao.connect = function (callback) {
 dao.findRacers = function (db, callback) {
 	var racers = db.collection('racers');
 	racers.find({}).toArray(function (err, docs) {
-		console.log("found racers: " + (err == null));
+		console.log('found all ' + docs.length + ' racers');
 		console.dir(docs);
 		callback(docs);
 	});
@@ -47,7 +47,7 @@ dao.findRacers = function (db, callback) {
 dao.findRacer = function (db, name, callback) {
 	var racers = db.collection('racers');
 	racers.find({name: new RegExp(name, 'gi')}).toArray(function (err, docs) {
-		console.log('found ' + docs.length + ' racers');
+		console.log('found ' + docs.length + ' racers with name ' + name);
 		console.dir(docs);
 		callback(docs);
 	});
@@ -55,8 +55,21 @@ dao.findRacer = function (db, name, callback) {
 dao.insertRacer = function (db, racer, callback) {
 	var racers = db.collection('racers');
 	racers.insert(racer, function (err, result) {
-		console.log(err);
-		console.log("insert succeeded: " + (err == null));
+		console.log("insert racer succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.saveRacer = function (db, racer, callback) {
+	var racers = db.collection('racers');
+	racers.update({_id: racer._id}, {$set: racer}, function (err, result) {
+		console.log("update racer succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.deleteRacer = function (db, racer, callback) {
+	var racers = db.collection('racers');
+	racers.remove(racer, function (err, result) {
+		console.log("remove racer succeeded: " + (err == null));
 		callback(result);
 	});
 };
@@ -64,7 +77,7 @@ dao.insertRacer = function (db, racer, callback) {
 dao.findCars = function (db, callback) {
 	var cars = db.collection('cars');
 	cars.find({}).toArray(function (err, docs) {
-		console.log("Found the following cars");
+		console.log('found all ' + docs.length + ' racers');
 		console.dir(docs);
 		callback(docs);
 	});
@@ -72,7 +85,7 @@ dao.findCars = function (db, callback) {
 dao.findCar = function (db, name, callback) {
 	var cars = db.collection('cars');
 	cars.find({name: new RegExp(name, 'gi')}).toArray(function (err, docs) {
-		console.log('found ' + docs.length + ' cars');
+		console.log('found ' + docs.length + ' cars with name ' + name);
 		console.dir(docs);
 		callback(docs);
 	});
@@ -80,7 +93,21 @@ dao.findCar = function (db, name, callback) {
 dao.insertCar = function (db, car, callback) {
 	var cars = db.collection('cars');
 	cars.insert(car, function (err, result) {
-		console.log("insert succeeded: " + (err == null));
+		console.log("insert car succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.saveCar = function (db, car, callback) {
+	var cars = db.collection('cars');
+	cars.update({_id: car._id}, {$set: car}, function (err, result) {
+		console.log("update car succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.deleteCar = function (db, car, callback) {
+	var cars = db.collection('cars');
+	cars.remove(car, function (err, result) {
+		console.log("remove car succeeded: " + (err == null));
 		callback(result);
 	});
 };

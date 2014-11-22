@@ -1,12 +1,12 @@
 <div class="container-fluid">
-	<h1>Car: <small>{{car.name}}</small></h1>
+	<h1>Car: <small>{{digi.car.name}}</small></h1>
 
 	<div class="row">
 		<div class="form-group">
 			<label class="col-md-2 control-label">Name</label>
 
 			<div class="col-md-6">
-				<input type="text" class="form-control" ng-model="car.name">
+				<input type="text" class="form-control" ng-model="digi.car.name">
 			</div>
 		</div>
 	</div>
@@ -15,13 +15,13 @@
 			<label class="col-md-2 control-label">Description</label>
 
 			<div class="col-md-6">
-				<input type="text" class="form-control" ng-model="car.description">
+				<input type="text" class="form-control" ng-model="digi.car.description">
 			</div>
 		</div>
 	</div>
 	<div class="row">
 			<div class="col-md-8">
-				<a href="#/home" class="btn btn-primary">Back</a>
+				<a class="btn btn-primary" ng-click="back()">Back</a>
 				<a class="btn btn-primary" ng-click="save()">Save</a>
 			</div>
 		</div>
