@@ -1,28 +1,24 @@
 /*
  * Serve content over a socket
  */
+var serialPort = require('./serial');
+var util = require('./base-util');
 
 var socketConnect = function (socket) {
 	console.log('a user connected, socket: ' + socket.id);
-
 	socket.on('disconnect', function () {
 		console.log('user disconnected');
 	});
 
-	socket.emit('send:name', {
-		name: 'Bob'
-	});
-	setInterval(function () {
-		socket.emit('send:time', {
-			time: (new Date()).toString()
-		});
-	}, 1000);
+	serialPort.on('data', function (data) {
+		if (lineIdentifiers.indexOf(data.charAt(0)) == -1) {
+			data = data.substr(1);
+		}
+		var packet = util.toPacket(data);
 
-	socket.on('chat message', function (msg) {
-		console.log('message: ' + msg);
-		io.emit('chat message', msg);
-		socket.emit('chat message', 'echo: ' + msg);
-		socket.broadcast.emit('chat message', 'bc: ' + msg);
+		console.log('emitting received data: ' + data);
+		socket.emit('base:raw', data);
+		socket.emit('base:' + packet.type , packet);
 	});
 };
 
