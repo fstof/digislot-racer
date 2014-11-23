@@ -7,8 +7,8 @@
 				<div class="row">
 					<div class="col-md-12"><h4>Racers</h4></div>
 				</div>
-				<div class="row" ng-repeat="racer in racers">
-					<div class="col-md-10">{{racer.name}}</div>
+				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="racer in racers">
+					<div class="col-md-10 control-label">{{racer.name}}</div>
 					<div class="col-md-1"><a ng-click="editRacer(racer)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
 					<div class="col-md-1"><a ng-click="deleteRacer(racer)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
 				</div>
@@ -19,7 +19,7 @@
 				<div class="row">
 					<div class="col-md-12"><h4>Cars</h4></div>
 				</div>
-				<div class="row" ng-repeat="car in cars">
+				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="car in cars">
 					<div class="col-md-5">{{car.name}}</div>
 					<div class="col-md-5">{{car.description}}</div>
 					<div class="col-md-1"><a ng-click="editCar(car)" class="btn btn-default glyphicon glyphicon-edit"></a></div>

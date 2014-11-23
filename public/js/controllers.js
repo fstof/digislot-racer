@@ -26,7 +26,7 @@ angular.module('fs.digiSlot')
 
 		$scope.editRacer = function (racer) {
 			$scope.digi.racer = racer;
-			$location.path("racer");
+			$location.path('racer');
 		};
 
 		$scope.deleteRacer = function (racer) {
@@ -61,15 +61,11 @@ angular.module('fs.digiSlot')
 
 		$scope.editCar = function (car) {
 			$scope.digi.car = car;
-			$location.path("car");
+			$location.path('car');
 		};
 
 		$scope.loadCars();
 		$scope.loadRacers();
-	})
-
-	.controller('NewRaceController', function ($scope, digi) {
-		$scope.digi = digi;
 	})
 
 	.controller('RacerController', function ($scope, $location, DataService) {
@@ -78,7 +74,7 @@ angular.module('fs.digiSlot')
 		}
 		$scope.back = function () {
 			$scope.digi.racer = null;
-			$location.path("home");
+			$location.path('home');
 		};
 		$scope.save = function () {
 			var savePromise;
@@ -90,7 +86,7 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.racer = null;
-					$location.path("home");
+					$location.path('home');
 				}
 			});
 		}
@@ -102,7 +98,7 @@ angular.module('fs.digiSlot')
 		}
 		$scope.back = function () {
 			$scope.digi.car = null;
-			$location.path("home");
+			$location.path('home');
 		};
 		$scope.save = function () {
 			var savePromise;
@@ -115,10 +111,43 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.car = null;
-					$location.path("home");
+					$location.path('home');
 				}
 			});
 		}
+	})
+
+	.controller('NewRaceController', function ($scope, $location, digi) {
+		$scope.digi = digi;
+
+		$scope.loadRacers = function () {
+			var racersPromise = DataService.getRacers();
+			racersPromise.then(function (res) {
+				console.log('then ' + res);
+				$scope.racers = res.data;
+			});
+		};
+		$scope.loadCars = function () {
+			var carsPromise = DataService.getCars();
+			carsPromise.then(function (res) {
+				console.log('then ' + res);
+				$scope.cars = res.data;
+			});
+		};
+		$scope.addRacer = function () {
+			$scope.digi.race.racers.push({});
+		};
+
+
+		$scope.next = function () {
+			for (var r = 0; r < $scope.digi.race.racers.length; r++) {
+				$scope.digi.race.racers[r].pos = 0;
+				$scope.digi.race.racers[r].lane = 0;
+				$scope.digi.race.racers[r].lap = 0;
+				$scope.digi.race.racers[r].fuel = 0;
+			}
+			$location.path('race');
+		};
 	})
 
 	.controller('RaceController', function ($scope, socket, digi) {
