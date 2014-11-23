@@ -16,8 +16,8 @@ angular.module('fs.digiSlot')
 			return promise;
 		};
 
-		this.getRacers = function () {
-			var promise = $http.get('/api/racers', {});
+		this.getDrivers = function () {
+			var promise = $http.get('/api/drivers', {});
 			return promise;
 		};
 
@@ -31,13 +31,13 @@ angular.module('fs.digiSlot')
 			return promise;
 		};
 
-		this.addRacer = function (racer) {
-			var promise = $http.post('/api/addRacer', {racer: racer});
+		this.addDriver = function (driver) {
+			var promise = $http.post('/api/addDriver', {driver: driver});
 			return promise;
 		};
 
-		this.saveRacer = function (racer) {
-			var promise = $http.post('/api/updateRacer', {racer: racer});
+		this.saveDriver = function (driver) {
+			var promise = $http.post('/api/updateDriver', {driver: driver});
 			return promise;
 		};
 
@@ -45,8 +45,8 @@ angular.module('fs.digiSlot')
 			return $http.post('/api/deleteCar', {car: car});
 		};
 
-		this.deleteRacer = function (racer) {
-			return $http.post('/api/deleteRacer', {racer: racer});
+		this.deleteDriver = function (driver) {
+			return $http.post('/api/deleteDriver', {driver: driver});
 		};
 
 	});

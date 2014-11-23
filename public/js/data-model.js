@@ -7,7 +7,7 @@ angular.module('fs.digiSlot')
 				laps: 20,
 				currentLap: 5,
 				maxFuel: 100,
-				racers: []
+				drivers: []
 			}
 		};
 	});

@@ -5,12 +5,12 @@
 		<div class="col-md-6">
 			<div class="container-fluid">
 				<div class="row">
-					<div class="col-md-12"><h4>Racers</h4></div>
+					<div class="col-md-12"><h4>Drivers</h4></div>
 				</div>
-				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="racer in racers">
-					<div class="col-md-10 control-label">{{racer.name}}</div>
-					<div class="col-md-1"><a ng-click="editRacer(racer)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
-					<div class="col-md-1"><a ng-click="deleteRacer(racer)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
+				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="driver in drivers">
+					<div class="col-md-10 control-label">{{driver.name}}</div>
+					<div class="col-md-1"><a ng-click="editDriver(driver)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
+					<div class="col-md-1"><a ng-click="deleteDriver(driver)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
 				</div>
 			</div>
 		</div>

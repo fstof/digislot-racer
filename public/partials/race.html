@@ -29,15 +29,15 @@
 			<div class="col-sm-1"><h4>Position</h4></div>
 			<div class="col-sm-2"><h4>Lane</h4></div>
 			<div class="col-sm-1"><h4>Lap</h4></div>
-			<div class="col-sm-5"><h4>Racer</h4></div>
+			<div class="col-sm-5"><h4>Driver</h4></div>
 			<div class="col-sm-3"><h4>Fuel</h4></div>
 		</div>
-		<div ng-repeat="racer in digi.race.racers | orderBy:'pos':false" class="row table-bordered">
-			<div class="col-sm-1">{{racer.pos}}</div>
-			<div class="col-sm-2">{{racer.lane}}</div>
-			<div class="col-sm-1">{{racer.lap}}</div>
-			<div class="col-sm-5">{{racer.name}}</div>
-			<div class="col-sm-3">{{racer.fuel}} / {{digi.race.maxFuel}}</div>
+		<div ng-repeat="driver in digi.race.drivers | orderBy:'pos':false" class="row table-bordered">
+			<div class="col-sm-1">{{driver.pos}}</div>
+			<div class="col-sm-2">{{driver.lane}}</div>
+			<div class="col-sm-1">{{driver.lap}}</div>
+			<div class="col-sm-5">{{driver.name}}</div>
+			<div class="col-sm-3">{{driver.fuel}} / {{digi.race.maxFuel}}</div>
 		</div>
 	</div>
 </div>

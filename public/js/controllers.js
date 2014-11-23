@@ -10,30 +10,30 @@ angular.module('fs.digiSlot')
 	.controller('HomeController', function ($scope, $location, socket, DataService, digi) {
 		$scope.digi = digi;
 
-		$scope.loadRacers = function () {
-			var racersPromise = DataService.getRacers();
-			racersPromise.then(function (res) {
+		$scope.loadDrivers = function () {
+			var driversPromise = DataService.getDrivers();
+			driversPromise.then(function (res) {
 				console.log('then ' + res);
-				$scope.racers = res.data;
+				$scope.drivers = res.data;
 			});
-			racersPromise.catch(function (res) {
+			driversPromise.catch(function (res) {
 				console.log('catch ' + res);
 			});
-			racersPromise.finally(function () {
+			driversPromise.finally(function () {
 				console.log('finally ');
 			});
 		};
 
-		$scope.editRacer = function (racer) {
-			$scope.digi.racer = racer;
-			$location.path('racer');
+		$scope.editDriver = function (driver) {
+			$scope.digi.driver = driver;
+			$location.path('driver');
 		};
 
-		$scope.deleteRacer = function (racer) {
-			var deletePromise = DataService.deleteRacer(racer);
+		$scope.deleteDriver = function (driver) {
+			var deletePromise = DataService.deleteDriver(driver);
 			deletePromise.then(function (res) {
-				console.log('racer deleted: ' + res.success);
-				$scope.loadRacers();
+				console.log('driver deleted: ' + res.success);
+				$scope.loadDrivers();
 			});
 		};
 
@@ -65,27 +65,27 @@ angular.module('fs.digiSlot')
 		};
 
 		$scope.loadCars();
-		$scope.loadRacers();
+		$scope.loadDrivers();
 	})
 
-	.controller('RacerController', function ($scope, $location, DataService) {
-		if ($scope.digi.racer == null) {
-			$scope.digi.racer = {};
+	.controller('DriverController', function ($scope, $location, DataService) {
+		if ($scope.digi.driver == null) {
+			$scope.digi.driver = {};
 		}
 		$scope.back = function () {
-			$scope.digi.racer = null;
+			$scope.digi.driver = null;
 			$location.path('home');
 		};
 		$scope.save = function () {
 			var savePromise;
-			if ($scope.digi.racer._id) {
-				savePromise = DataService.saveRacer($scope.digi.racer);
+			if ($scope.digi.driver._id) {
+				savePromise = DataService.saveDriver($scope.digi.driver);
 			} else {
-				savePromise = DataService.addRacer($scope.digi.racer);
+				savePromise = DataService.addDriver($scope.digi.driver);
 			}
 			savePromise.then(function (res) {
 				if (res.data.success) {
-					$scope.digi.racer = null;
+					$scope.digi.driver = null;
 					$location.path('home');
 				}
 			});
@@ -120,11 +120,11 @@ angular.module('fs.digiSlot')
 	.controller('NewRaceController', function ($scope, $location, digi) {
 		$scope.digi = digi;
 
-		$scope.loadRacers = function () {
-			var racersPromise = DataService.getRacers();
-			racersPromise.then(function (res) {
+		$scope.loadDrivers = function () {
+			var driversPromise = DataService.getDrivers();
+			driversPromise.then(function (res) {
 				console.log('then ' + res);
-				$scope.racers = res.data;
+				$scope.drivers = res.data;
 			});
 		};
 		$scope.loadCars = function () {
@@ -134,17 +134,17 @@ angular.module('fs.digiSlot')
 				$scope.cars = res.data;
 			});
 		};
-		$scope.addRacer = function () {
-			$scope.digi.race.racers.push({});
+		$scope.addDriver = function () {
+			$scope.digi.race.drivers.push({});
 		};
 
 
 		$scope.next = function () {
-			for (var r = 0; r < $scope.digi.race.racers.length; r++) {
-				$scope.digi.race.racers[r].pos = 0;
-				$scope.digi.race.racers[r].lane = 0;
-				$scope.digi.race.racers[r].lap = 0;
-				$scope.digi.race.racers[r].fuel = 0;
+			for (var r = 0; r < $scope.digi.race.drivers.length; r++) {
+				$scope.digi.race.drivers[r].pos = 0;
+				$scope.digi.race.drivers[r].lane = 0;
+				$scope.digi.race.drivers[r].lap = 0;
+				$scope.digi.race.drivers[r].fuel = 0;
 			}
 			$location.path('race');
 		};

@@ -65,27 +65,27 @@ router.post('/deleteCar', function (req, res) {
 	});
 });
 
-router.get('/racers', function (req, res) {
+router.get('/drivers', function (req, res) {
 	dao.connect(function (db, cleanup) {
-		dao.findRacers(db, function (racers) {
-			res.json(racers);
+		dao.findDrivers(db, function (drivers) {
+			res.json(drivers);
 			cleanup();
 		});
 	});
 });
-router.get('/findRacer/:name', function (req, res) {
+router.get('/findDriver/:name', function (req, res) {
 	var name = req.params.name;
 	dao.connect(function (db, cleanup) {
-		dao.findRacer(db, name, function (data) {
+		dao.findDriver(db, name, function (data) {
 			res.json(data);
 			cleanup()
 		})
 	})
 });
-router.post('/addRacer', function (req, res) {
-	var newRacer = req.body.racer;
+router.post('/addDriver', function (req, res) {
+	var newDriver = req.body.driver;
 	dao.connect(function (db, cleanup) {
-		dao.insertRacer(db, newRacer, function (data) {
+		dao.insertDriver(db, newDriver, function (data) {
 			if (data) {
 				data[0].success = true;
 			} else {
@@ -96,10 +96,10 @@ router.post('/addRacer', function (req, res) {
 		});
 	});
 });
-router.post('/updateRacer', function (req, res) {
-	var newRacer = req.body.racer;
+router.post('/updateDriver', function (req, res) {
+	var newDriver = req.body.driver;
 	dao.connect(function (db, cleanup) {
-		dao.saveRacer(db, newRacer, function (data) {
+		dao.saveDriver(db, newDriver, function (data) {
 			if (data > 0) {
 				data = {success: true};
 			} else {
@@ -110,11 +110,11 @@ router.post('/updateRacer', function (req, res) {
 		});
 	});
 });
-router.post('/deleteRacer', function (req, res) {
-	var racerToDelete = req.body.racer;
+router.post('/deleteDriver', function (req, res) {
+	var driverToDelete = req.body.driver;
 
 	dao.connect(function (db, cleanup) {
-		dao.deleteRacer(db, racerToDelete, function (data) {
+		dao.deleteDriver(db, driverToDelete, function (data) {
 			if (data) {
 				for (var i = 0; i < data.length; i++) {
 					data[i].success = true;

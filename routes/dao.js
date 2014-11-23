@@ -2,7 +2,7 @@ var dao = {};
 
 var mongodb = require('mongodb');
 var MongoClient = mongodb.MongoClient;
-var url = 'mongodb://localhost:27017/digislotRacer';
+var url = 'mongodb://localhost:27017/digislotDriver';
 
 var Engine = require('tingodb')();
 
@@ -36,40 +36,40 @@ dao.connect = function (callback) {
 	//});
 };
 
-dao.findRacers = function (db, callback) {
-	var racers = db.collection('racers');
-	racers.find({}).toArray(function (err, docs) {
-		console.log('found all ' + docs.length + ' racers');
+dao.findDrivers = function (db, callback) {
+	var drivers = db.collection('drivers');
+	drivers.find({}).toArray(function (err, docs) {
+		console.log('found all ' + docs.length + ' drivers');
 		console.dir(docs);
 		callback(docs);
 	});
 };
-dao.findRacer = function (db, name, callback) {
-	var racers = db.collection('racers');
-	racers.find({name: new RegExp(name, 'gi')}).toArray(function (err, docs) {
-		console.log('found ' + docs.length + ' racers with name ' + name);
+dao.findDriver = function (db, name, callback) {
+	var drivers = db.collection('drivers');
+	drivers.find({name: new RegExp(name, 'gi')}).toArray(function (err, docs) {
+		console.log('found ' + docs.length + ' drivers with name ' + name);
 		console.dir(docs);
 		callback(docs);
 	});
 };
-dao.insertRacer = function (db, racer, callback) {
-	var racers = db.collection('racers');
-	racers.insert(racer, function (err, result) {
-		console.log("insert racer succeeded: " + (err == null));
+dao.insertDriver = function (db, driver, callback) {
+	var drivers = db.collection('drivers');
+	drivers.insert(driver, function (err, result) {
+		console.log("insert driver succeeded: " + (err == null));
 		callback(result);
 	});
 };
-dao.saveRacer = function (db, racer, callback) {
-	var racers = db.collection('racers');
-	racers.update({_id: racer._id}, {$set: racer}, function (err, result) {
-		console.log("update racer succeeded: " + (err == null));
+dao.saveDriver = function (db, driver, callback) {
+	var drivers = db.collection('drivers');
+	drivers.update({_id: driver._id}, {$set: driver}, function (err, result) {
+		console.log("update driver succeeded: " + (err == null));
 		callback(result);
 	});
 };
-dao.deleteRacer = function (db, racer, callback) {
-	var racers = db.collection('racers');
-	racers.remove(racer, function (err, result) {
-		console.log("remove racer succeeded: " + (err == null));
+dao.deleteDriver = function (db, driver, callback) {
+	var drivers = db.collection('drivers');
+	drivers.remove(driver, function (err, result) {
+		console.log("remove driver succeeded: " + (err == null));
 		callback(result);
 	});
 };
@@ -77,7 +77,7 @@ dao.deleteRacer = function (db, racer, callback) {
 dao.findCars = function (db, callback) {
 	var cars = db.collection('cars');
 	cars.find({}).toArray(function (err, docs) {
-		console.log('found all ' + docs.length + ' racers');
+		console.log('found all ' + docs.length + ' drivers');
 		console.dir(docs);
 		callback(docs);
 	});
