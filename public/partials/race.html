@@ -7,17 +7,26 @@
 				<h1>{{digi.race.currentLap}} / {{digi.race.laps}}</h1>
 			</div>
 			<div class="col-xs-6">
-				<div class="row">
-					<div class="col-sm-4">
-						<div>Menu</div>
-						<div>
-							<ul>
-								<li><a>Stop Race</a></li>
-								<li><a href="#/home">Home</a></li>
-							</ul>
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-sm-12">
+							<h1>Running Time: {{digi.race.totalTime | number : 2}}</h1>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-sm-12">
+							<h1>Best Lap: {{digi.race.bestLap | number : 2}}</h1>
 						</div>
 					</div>
 				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-sm-12">
+				<div>Menu</div>
+				<a class="btn btn-primary" ng-hide="digi.race.running" ng-click="start()">Start Race</a>
+				<a class="btn btn-primary" ng-show="digi.race.running" ng-click="pause()">Stop Race</a>
+				<a class="btn btn-primary" href="#/home">Home</a>
 			</div>
 		</div>
 	</div>
@@ -27,17 +36,23 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="col-sm-1"><h4>Position</h4></div>
-			<div class="col-sm-2"><h4>Lane</h4></div>
+			<div class="col-sm-1"><h4>Lane</h4></div>
 			<div class="col-sm-1"><h4>Lap</h4></div>
-			<div class="col-sm-5"><h4>Driver</h4></div>
-			<div class="col-sm-3"><h4>Fuel</h4></div>
+			<div class="col-sm-2"><h4>Driver</h4></div>
+			<div class="col-sm-2"><h4>Car</h4></div>
+			<div class="col-sm-2"><h4>Last Lap</h4></div>
+			<div class="col-sm-2"><h4>Best Lap</h4></div>
+			<div class="col-sm-1"><h4>Fuel</h4></div>
 		</div>
-		<div ng-repeat="driver in digi.race.drivers | orderBy:'pos':false" class="row table-bordered">
-			<div class="col-sm-1">{{driver.pos}}</div>
-			<div class="col-sm-2">{{driver.lane}}</div>
-			<div class="col-sm-1">{{driver.lap}}</div>
-			<div class="col-sm-5">{{driver.name}}</div>
-			<div class="col-sm-3">{{driver.fuel}} / {{digi.race.maxFuel}}</div>
+		<div ng-repeat="racer in digi.race.racers | orderBy:'pos':false" class="row table-bordered">
+			<div class="col-sm-1">{{racer.pos}}</div>
+			<div class="col-sm-1">{{racer.carNumber}}</div>
+			<div class="col-sm-1">{{racer.lap}}</div>
+			<div class="col-sm-2">{{racer.driver.name}}</div>
+			<div class="col-sm-2">{{racer.car.name}}</div>
+			<div class="col-sm-2">{{racer.lastLap | number : 2}}</div>
+			<div class="col-sm-2">{{racer.bestLap | number : 2}}</div>
+			<div class="col-sm-1">{{racer.fuel}} / {{digi.race.maxFuel}}</div>
 		</div>
 	</div>
 </div>

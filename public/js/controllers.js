@@ -7,7 +7,7 @@ angular.module('fs.digiSlot')
 		$scope.digi = digi;
 	})
 
-	.controller('HomeController', function ($scope, $location, socket, DataService, digi) {
+	.controller('HomeController', function ($scope, $location, DataService, digi) {
 		$scope.digi = digi;
 
 		$scope.loadDrivers = function () {
@@ -117,7 +117,7 @@ angular.module('fs.digiSlot')
 		}
 	})
 
-	.controller('NewRaceController', function ($scope, $location, digi) {
+	.controller('NewRaceController', function ($scope, $location, digi, DataService, socket) {
 		$scope.digi = digi;
 
 		$scope.loadDrivers = function () {
@@ -134,24 +134,50 @@ angular.module('fs.digiSlot')
 				$scope.cars = res.data;
 			});
 		};
-		$scope.addDriver = function () {
-			$scope.digi.race.drivers.push({});
+		$scope.loadCars();
+		$scope.loadDrivers();
+
+		$scope.addRacer = function () {
+			$scope.digi.race.racers.push({pos: 0, lane: 0, lap: 0, lastLap: 0.0, bestLap: 0.0,fuel: 100});
+		};
+		$scope.removeRacer = function (racer) {
+			var index = $scope.digi.race.racers.indexOf(racer);
+			$scope.digi.race.racers.splice(index, 1);
 		};
 
+		$scope.digi.baseReady = false;
+
+		socket.on('base:reset', function (data) {
+			$scope.digi.baseReady = true;
+		});
 
 		$scope.next = function () {
-			for (var r = 0; r < $scope.digi.race.drivers.length; r++) {
-				$scope.digi.race.drivers[r].pos = 0;
-				$scope.digi.race.drivers[r].lane = 0;
-				$scope.digi.race.drivers[r].lap = 0;
-				$scope.digi.race.drivers[r].fuel = 0;
-			}
 			$location.path('race');
 		};
 	})
 
-	.controller('RaceController', function ($scope, socket, digi) {
+	.controller('RaceController', function ($scope, $timeout, socket, digi) {
 		$scope.digi = digi;
+		var timerPromise;
+		var startTime;
+
+		var timetime = function () {
+			$scope.digi.race.totalTime = (new Date().getTime() - startTime) / 1000;
+			timerPromise = $timeout(timetime, 10);
+		};
+
+		$scope.start = function () {
+			$scope.digi.race.running = true;
+			if (!startTime) {
+				startTime = new Date().getTime();
+			}
+			timetime();
+		};
+		$scope.pause = function () {
+			$scope.digi.race.running = false;
+			startTime = null;
+			$timeout.cancel(timerPromise);
+		};
 
 		socket.on('base:reset', function (data) {
 			$scope.name = data.name;
