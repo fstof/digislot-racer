@@ -138,7 +138,7 @@ angular.module('fs.digiSlot')
 		$scope.loadDrivers();
 
 		$scope.addRacer = function () {
-			$scope.digi.race.racers.push({pos: 0, lane: 0, lap: 0, lastLap: 0.0, bestLap: 0.0,fuel: 100});
+			$scope.digi.race.racers.push({pos: 0, lane: 0, lap: 0, lastLap: 0.0, bestLap: 0.0, fuel: 99});
 		};
 		$scope.removeRacer = function (racer) {
 			var index = $scope.digi.race.racers.indexOf(racer);
@@ -147,13 +147,42 @@ angular.module('fs.digiSlot')
 
 		$scope.digi.baseReady = false;
 
-		socket.on('base:reset', function (data) {
+		socket.on('base:program', function (data) {
 			$scope.digi.baseReady = true;
+		});
+		socket.on('base:mode', function (data) {
+			if ($scope.digi.baseReady) {
+				$scope.digi.race.lights = data.lights;
+				$scope.digi.race.mode = data.mode;
+			}
+		});
+		socket.on('base:line', function (data) {
+			if ($scope.digi.baseReady) {
+				$scope.digi.race.laps = data.laps;
+				$scope.digi.race.racers = [];
+				for (var k = 0; k < data.cars.length; k++) {
+					$scope.digi.race.racers.push({
+						pos: 0,
+						carNumber: data.cars[k].carNo,
+						lap: 0,
+						lastLap: 0.0,
+						bestLap: 0.0,
+						fuel: 99
+					});
+				}
+			}
+		});
+		socket.on('base:raw', function (data) {
+			console.log("raw data: " + data);
 		});
 
 		$scope.next = function () {
 			$location.path('race');
 		};
+
+		$scope.$on("$destroy", function(){
+			socket.disconnect();
+		});
 	})
 
 	.controller('RaceController', function ($scope, $timeout, socket, digi) {
@@ -179,11 +208,13 @@ angular.module('fs.digiSlot')
 			$timeout.cancel(timerPromise);
 		};
 
-		socket.on('base:reset', function (data) {
-			$scope.name = data.name;
-		});
-
-		socket.on('base:lap', function (data) {
-			$scope.time = data.time;
+		socket.on('base:fuel', function (data) {
+			if ($scope.digi.baseReady) {
+				for (var k = 0; k < $scope.digi.race.racers.length; k++) {
+					var racer = $scope.digi.race.racers[k];
+					var car = data.cars[racer.carNumber - 1];
+					racer.fuel = car.fuel;
+				}
+			}
 		});
 	});

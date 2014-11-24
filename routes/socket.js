@@ -11,7 +11,7 @@ var socketConnect = function (socket) {
 	});
 
 	serialPort.on('data', function (data) {
-		if (lineIdentifiers.indexOf(data.charAt(0)) == -1) {
+		if (serialPort.lineIdentifiers.indexOf(data.charAt(0)) == -1) {
 			data = data.substr(1);
 		}
 		var packet = util.toPacket(data);

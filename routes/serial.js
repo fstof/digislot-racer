@@ -16,14 +16,14 @@ port.lineIdentifiers = ['M', 'P', 'L', 'F', 'D'];
 port.on("open", function () {
 	console.log('port opened');
 });
-
-port.on('data', function (data) {
-	if (lineIdentifiers.indexOf(data.charAt(0)) == -1) {
-		data = data.substr(1);
-	}
-	console.log('data received: ' + data);
-	io.emit('base:data', 'data received: ' + data);
-});
+//
+//port.on('data', function (data) {
+//	if (port.lineIdentifiers.indexOf(data.charAt(0)) == -1) {
+//		data = data.substr(1);
+//	}
+//	console.log('data received: ' + data);
+//	io.emit('base:data', 'data received: ' + data);
+//});
 
 
 module.exports = port;
