@@ -50,8 +50,8 @@
 			<div class="col-sm-1">{{racer.lap}}</div>
 			<div class="col-sm-2">{{racer.driver.name}}</div>
 			<div class="col-sm-2">{{racer.car.name}}</div>
-			<div class="col-sm-2">{{racer.lastLap | number : 2}}</div>
-			<div class="col-sm-2">{{racer.bestLap | number : 2}}</div>
+			<div class="col-sm-2">{{racer.lastLap | nincoTimeFormat}}</div>
+			<div class="col-sm-2">{{racer.bestLap | nincoTimeFormat}}</div>
 			<div class="col-sm-1">{{racer.fuel}} / {{digi.race.maxFuel}}</div>
 		</div>
 	</div>

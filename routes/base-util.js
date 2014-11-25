@@ -17,10 +17,10 @@ var fuelPacket = {
 };
 var resultPacket = {
 	type: 'result',
-	car: 0,
-	laps: 0,
+	carNumber: 0,
+	lap: 0,
 	time: 0,
-	fastestLap: 0
+	bestLap: 0
 };
 
 var baseUtil = {
@@ -64,8 +64,8 @@ var baseUtil = {
 		finishLinePacket.cars = [];
 		for (var k = 1; k < split.length; k++) {
 			finishLinePacket.cars.push({
-				carNo: k,
-				pos: Number(split[1].charAt(0)),
+				carNumber: k,
+				position: Number(split[1].charAt(0)),
 				speed: split[1].charAt(1)
 			});
 		}
@@ -83,7 +83,7 @@ var baseUtil = {
 				level = Number(split[k]);
 			}
 			fuelPacket.cars.push({
-				carNo: k + 1,
+				carNumber: k + 1,
 				fuel: level
 			});
 		}
@@ -91,6 +91,12 @@ var baseUtil = {
 	},
 
 	buildResultPacket: function (data) {
+		var split = data.split(',');
+		resultPacket.carNumber = Number(split[0]);
+		resultPacket.lap = Number(split[1]);
+		resultPacket.time = split[2];
+		resultPacket.bestLap = split[3];
+
 		return resultPacket;
 	}
 };

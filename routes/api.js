@@ -1,5 +1,5 @@
 var express = require('express');
-var dao = require('./dao');
+var dao = require('./dao-data');
 var router = express.Router();
 
 router.get('/cars', function (req, res) {
@@ -8,7 +8,7 @@ router.get('/cars', function (req, res) {
 			res.json(data);
 			cleanup();
 		})
-	})
+	});
 });
 router.get('/findCar/:name', function (req, res) {
 	var name = req.params.name;

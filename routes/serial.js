@@ -5,8 +5,8 @@ var SerialPort = serialPort.SerialPort;
 
 var sp = {
 	port: function () {
-		console.log('creating serialport');
-		var port = new SerialPort(settings.serialPort, {
+		console.log('Creating SerialPort');
+		var port = 	new SerialPort(settings.serialPort, {
 			baudRate: 1200,
 			dataBits: 7,
 			stopBits: 1,
@@ -14,16 +14,16 @@ var sp = {
 			parser: serialPort.parsers.readline('\x0d')
 			//parser: serialPort.parsers.raw
 		}, false);
+
+		port.on("open", function () {
+			console.log('SerialPort opened');
+		});
+		port.on("close", function () {
+			console.log('SerialPort closed');
+		});
 		return port;
 	}
 };
-
-
-
 sp.lineIdentifiers = ['M', 'P', 'L', 'F', 'D'];
-
-// port.on("open", function () {
-// 	console.log('port opened');
-// });
 
 module.exports = sp;

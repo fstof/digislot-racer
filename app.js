@@ -5,20 +5,23 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var api = require('./routes/api');
-
 var app = express();
+
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+
 app.set('view engine', 'jade');
 app.use(logger('dev'));
-
 app.use(bodyParser.json());
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var settings = require('./routes/settings');
+settings.load();
 
 // Socket.io Communication
 io.sockets.on('connection', require('./routes/socket'));

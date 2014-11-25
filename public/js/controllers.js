@@ -138,7 +138,16 @@ angular.module('fs.digiSlot')
 		$scope.loadDrivers();
 
 		$scope.addRacer = function () {
-			$scope.digi.race.racers.push({pos: 0, lane: 0, lap: 0, lastLap: 0.0, bestLap: 0.0, fuel: 99});
+			$scope.digi.race.racers.push({
+				position: 0,
+				lane: 0,
+				lap: 0,
+				time: 0,
+				lastLap: '0',
+				bestLap: '0',
+				fuel: 99,
+				laps: []
+			});
 		};
 		$scope.removeRacer = function (racer) {
 			var index = $scope.digi.race.racers.indexOf(racer);
@@ -148,26 +157,31 @@ angular.module('fs.digiSlot')
 		$scope.digi.baseReady = false;
 
 		socket.on('base:program', function (data) {
+			console.log('base:program');
 			$scope.digi.baseReady = true;
 		});
 		socket.on('base:mode', function (data) {
+			console.log('base:mode');
 			if ($scope.digi.baseReady) {
 				$scope.digi.race.lights = data.lights;
 				$scope.digi.race.mode = data.mode;
 			}
 		});
 		socket.on('base:line', function (data) {
+			console.log('base:line');
 			if ($scope.digi.baseReady) {
 				$scope.digi.race.laps = data.laps;
 				$scope.digi.race.racers = [];
 				for (var k = 0; k < data.cars.length; k++) {
 					$scope.digi.race.racers.push({
-						pos: 0,
-						carNumber: data.cars[k].carNo,
+						position: 0,
+						carNumber: data.cars[k].carNumber,
 						lap: 0,
-						lastLap: 0.0,
-						bestLap: 0.0,
-						fuel: 99
+						time: 0,
+						lastLap: '0',
+						bestLap: '0',
+						fuel: 99,
+						laps: []
 					});
 				}
 			}
@@ -184,7 +198,7 @@ angular.module('fs.digiSlot')
 		};
 
 		$scope.$on("$destroy", function(){
-			socket.disconnect();
+			socket.removeAllListeners();
 		});
 	})
 
@@ -212,6 +226,7 @@ angular.module('fs.digiSlot')
 		};
 
 		socket.on('base:fuel', function (data) {
+			console.log('base:fuel');
 			if ($scope.digi.baseReady) {
 				for (var k = 0; k < $scope.digi.race.racers.length; k++) {
 					var racer = $scope.digi.race.racers[k];
@@ -221,10 +236,26 @@ angular.module('fs.digiSlot')
 			}
 		});
 
+		socket.on('base:result', function (data) {
+			console.log('base:result');
+			if ($scope.digi.baseReady) {
+				var racer = $scope.digi.race.racers[data.carNumber-1];
+
+				racer.lap = data.lap;
+				racer.lastLap = data.time - racer.time;
+				racer.time = data.time;
+				racer.bestLap = data.bestLap;
+				racer.laps.push(racer.lastLap);
+			}
+		});
+
 		socket.on('base:raw', function (data) {
 			console.log("raw data: " + data);
 		});
 		socket.on('base:err', function (data) {
 			console.log("ERROR: " + data);
+		});
+		$scope.$on("$destroy", function(){
+			socket.removeAllListeners();
 		});
 	});
