@@ -175,6 +175,9 @@ angular.module('fs.digiSlot')
 		socket.on('base:raw', function (data) {
 			console.log("raw data: " + data);
 		});
+		socket.on('base:err', function (data) {
+			console.log("ERROR: " + data);
+		});
 
 		$scope.next = function () {
 			$location.path('race');
@@ -216,5 +219,12 @@ angular.module('fs.digiSlot')
 					racer.fuel = car.fuel;
 				}
 			}
+		});
+
+		socket.on('base:raw', function (data) {
+			console.log("raw data: " + data);
+		});
+		socket.on('base:err', function (data) {
+			console.log("ERROR: " + data);
 		});
 	});
