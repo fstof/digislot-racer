@@ -12,41 +12,41 @@ angular.module('fs.digiSlot')
 
 	.service('DataService', function ($http) {
 		this.getCars = function () {
-			var promise = $http.get('/api/cars', {});
-			return promise;
+			return $http.get('/api/cars', {});
 		};
-
-		this.getDrivers = function () {
-			var promise = $http.get('/api/drivers', {});
-			return promise;
-		};
-
 		this.addCar = function (car) {
-			var promise = $http.post('/api/addCar', {car: car});
-			return promise;
+			return $http.post('/api/addCar', {car: car});
 		};
-
 		this.saveCar = function (car) {
-			var promise = $http.post('/api/updateCar', {car: car});
-			return promise;
+			return $http.post('/api/updateCar', {car: car});
 		};
-
-		this.addDriver = function (driver) {
-			var promise = $http.post('/api/addDriver', {driver: driver});
-			return promise;
-		};
-
-		this.saveDriver = function (driver) {
-			var promise = $http.post('/api/updateDriver', {driver: driver});
-			return promise;
-		};
-
 		this.deleteCar = function (car) {
 			return $http.post('/api/deleteCar', {car: car});
 		};
 
+		this.getDrivers = function () {
+			return $http.get('/api/drivers', {});
+		};
+		this.addDriver = function (driver) {
+			return $http.post('/api/addDriver', {driver: driver});
+		};
+		this.saveDriver = function (driver) {
+			return $http.post('/api/updateDriver', {driver: driver});
+		};
 		this.deleteDriver = function (driver) {
 			return $http.post('/api/deleteDriver', {driver: driver});
 		};
 
+		this.getTracks = function () {
+			return $http.get('/api/tracks', {});
+		};
+		this.addTrack = function (track) {
+			return $http.post('/api/addTrack', {track: track});
+		};
+		this.saveTrack = function (track) {
+			return $http.post('/api/updateTrack', {track: track});
+		};
+		this.deleteTrack = function (track) {
+			return $http.post('/api/deleteTrack', {track: track});
+		};
 	});

@@ -29,6 +29,10 @@ angular.module('fs.digiSlot', [
 				templateUrl: 'partials/car.html',
 				controller: 'CarController'
 			}).
+			when('/track', {
+				templateUrl: 'partials/track.html',
+				controller: 'TrackController'
+			}).
 			otherwise({
 				redirectTo: '/home'
 			});

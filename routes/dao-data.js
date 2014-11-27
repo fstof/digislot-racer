@@ -41,7 +41,7 @@ dao.deleteDriver = function (db, driver, callback) {
 dao.findCars = function (db, callback) {
 	var cars = db.collection('cars');
 	cars.find({}).toArray(function (err, docs) {
-		console.log('found all ' + docs.length + ' drivers');
+		console.log('found all ' + docs.length + ' cars');
 		console.dir(docs);
 		callback(docs);
 	});
@@ -75,5 +75,65 @@ dao.deleteCar = function (db, car, callback) {
 		callback(result);
 	});
 };
+
+dao.findTracks = function (db, callback) {
+	var tracks = db.collection('tracks');
+	tracks.find({}).toArray(function (err, docs) {
+		console.log('found all ' + docs.length + ' tracks');
+		console.dir(docs);
+		callback(docs);
+	});
+};
+dao.findTrack = function (db, name, callback) {
+	var tracks = db.collection('tracks');
+	tracks.find({name: new RegExp(name, 'gi')}).toArray(function (err, docs) {
+		console.log('found ' + docs.length + ' tracks with name ' + name);
+		console.dir(docs);
+		callback(docs);
+	});
+};
+dao.insertTrack = function (db, track, callback) {
+	var tracks = db.collection('tracks');
+	tracks.insert(track, function (err, result) {
+		console.log("insert track succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.saveTrack = function (db, track, callback) {
+	var tracks = db.collection('tracks');
+	tracks.update({_id: track._id}, {$set: track}, function (err, result) {
+		console.log("update track succeeded: " + (err == null));
+		callback(result);
+	});
+};
+dao.deleteTrack = function (db, track, callback) {
+	var tracks = db.collection('tracks');
+	tracks.remove(track, function (err, result) {
+		console.log("remove track succeeded: " + (err == null));
+		callback(result);
+	});
+};
+
+dao.findLapsForTrack = function (db, track, callback) {
+	var laps = db.collection('laps');
+	laps.find({track_id: track._id}).toArray(function (err, docs) {
+		console.log('found ' + docs.length + ' laps for track ' + track.name);
+		console.dir(docs);
+		callback(docs);
+	});
+};
+dao.insertLap = function (db, lap, callback) {
+	var laps = db.collection('laps');
+	laps.insert(track, function (err, result) {
+		console.log("insert lap succeeded: " + (err == null));
+		callback(result);
+	});
+};
+//laps = [{
+//	driver_id: 2,
+//	car_id: 2,
+//	track_id: 2,
+//	lapTime: '000321'
+//}];
 
 module.exports = dao;

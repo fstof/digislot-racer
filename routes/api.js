@@ -128,4 +128,67 @@ router.post('/deleteDriver', function (req, res) {
 	});
 });
 
+router.get('/tracks', function (req, res) {
+	dao.connect(function (db, cleanup) {
+		dao.findTracks(db, function (tracks) {
+			res.json(tracks);
+			cleanup();
+		});
+	});
+});
+router.get('/findTrack/:name', function (req, res) {
+	var name = req.params.name;
+	dao.connect(function (db, cleanup) {
+		dao.findTrack(db, name, function (data) {
+			res.json(data);
+			cleanup()
+		})
+	})
+});
+router.post('/addTrack', function (req, res) {
+	var newTrack = req.body.track;
+	dao.connect(function (db, cleanup) {
+		dao.insertTrack(db, newTrack, function (data) {
+			if (data) {
+				data[0].success = true;
+			} else {
+				data = {success: false};
+			}
+			res.json(data[0]);
+			cleanup();
+		});
+	});
+});
+router.post('/updateTrack', function (req, res) {
+	var newTrack = req.body.track;
+	dao.connect(function (db, cleanup) {
+		dao.saveTrack(db, newTrack, function (data) {
+			if (data > 0) {
+				data = {success: true};
+			} else {
+				data = {success: false};
+			}
+			res.json(data);
+			cleanup();
+		});
+	});
+});
+router.post('/deleteTrack', function (req, res) {
+	var trackToDelete = req.body.track;
+
+	dao.connect(function (db, cleanup) {
+		dao.deleteTrack(db, trackToDelete, function (data) {
+			if (data) {
+				for (var i = 0; i < data.length; i++) {
+					data[i].success = true;
+				}
+			} else {
+				data = [{success: false}];
+			}
+			res.json(data);
+			cleanup();
+		});
+	});
+});
+
 module.exports = router;

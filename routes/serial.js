@@ -4,9 +4,10 @@ var serialPort = require("serialport");
 var SerialPort = serialPort.SerialPort;
 
 var sp = {
+	lineIdentifiers: ['M', 'P', 'L', 'F', 'D'],
 	port: function () {
 		console.log('Creating SerialPort');
-		var port = 	new SerialPort(settings.serialPort, {
+		var port = new SerialPort(settings.serialPort, {
 			baudRate: 1200,
 			dataBits: 7,
 			stopBits: 1,
@@ -24,6 +25,5 @@ var sp = {
 		return port;
 	}
 };
-sp.lineIdentifiers = ['M', 'P', 'L', 'F', 'D'];
 
 module.exports = sp;

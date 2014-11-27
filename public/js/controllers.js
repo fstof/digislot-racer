@@ -23,12 +23,10 @@ angular.module('fs.digiSlot')
 				console.log('finally ');
 			});
 		};
-
 		$scope.editDriver = function (driver) {
 			$scope.digi.driver = driver;
 			$location.path('driver');
 		};
-
 		$scope.deleteDriver = function (driver) {
 			var deletePromise = DataService.deleteDriver(driver);
 			deletePromise.then(function (res) {
@@ -50,7 +48,6 @@ angular.module('fs.digiSlot')
 				console.log('finally ');
 			});
 		};
-
 		$scope.deleteCar = function (car) {
 			var deletePromise = DataService.deleteCar(car);
 			deletePromise.then(function (res) {
@@ -58,14 +55,39 @@ angular.module('fs.digiSlot')
 				$scope.loadCars();
 			});
 		};
-
 		$scope.editCar = function (car) {
 			$scope.digi.car = car;
 			$location.path('car');
 		};
 
+		$scope.loadTracks = function () {
+			var tracksPromise = DataService.getTracks();
+			tracksPromise.then(function (res) {
+				console.log('then ' + res);
+				$scope.tracks = res.data;
+			});
+			tracksPromise.catch(function (data) {
+				console.log('catch ' + data);
+			});
+			tracksPromise.finally(function () {
+				console.log('finally ');
+			});
+		};
+		$scope.deleteTrack = function (track) {
+			var deletePromise = DataService.deleteTrack(track);
+			deletePromise.then(function (res) {
+				console.log('track deleted: ' + res.success);
+				$scope.loadTracks();
+			});
+		};
+		$scope.editTrack = function (track) {
+			$scope.digi.track = track;
+			$location.path('track');
+		};
+
 		$scope.loadCars();
 		$scope.loadDrivers();
+		$scope.loadTracks();
 	})
 
 	.controller('DriverController', function ($scope, $location, DataService) {
@@ -111,6 +133,30 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.car = null;
+					$location.path('home');
+				}
+			});
+		}
+	})
+
+	.controller('TrackController', function ($scope, $location, DataService) {
+		if ($scope.digi.track == null) {
+			$scope.digi.track = {};
+		}
+		$scope.back = function () {
+			$scope.digi.track = null;
+			$location.path('home');
+		};
+		$scope.save = function () {
+			var savePromise;
+			if ($scope.digi.track._id) {
+				savePromise = DataService.saveTrack($scope.digi.track);
+			} else {
+				savePromise = DataService.addTrack($scope.digi.track);
+			}
+			savePromise.then(function (res) {
+				if (res.data.success) {
+					$scope.digi.track = null;
 					$location.path('home');
 				}
 			});
@@ -204,6 +250,7 @@ angular.module('fs.digiSlot')
 
 	.controller('RaceController', function ($scope, $timeout, socket, digi) {
 		$scope.digi = digi;
+		$scope.startLapCount = false;
 		var timerPromise;
 		var startTime;
 
@@ -224,7 +271,33 @@ angular.module('fs.digiSlot')
 			startTime = null;
 			$timeout.cancel(timerPromise);
 		};
+		socket.on('base:line', function (data) {
+			console.log('base:line');
+			if ($scope.digi.baseReady) {
+				if ($scope.startLapCount) {
+					$scope.digi.race.currentLap = Math.abs($scope.digi.race.laps - data.laps);
+				} else {
+					$scope.digi.race.laps = data.laps;
+					$scope.digi.race.currentLap = 0;
+				}
+			}
+		});
+		socket.on('base:result', function (data) {
+			console.log('base:result');
+			if ($scope.digi.baseReady) {
+				if (!$scope.startLapCount) {
+					$scope.startLapCount = true;
+				}
+				var racer = $scope.digi.race.racers[data.carNumber-1];
 
+				racer.lap = Math.abs($scope.digi.race.laps - data.lap);
+				//racer.lap = data.lap;
+				racer.lastLap = data.time - racer.time;
+				racer.time = data.time;
+				racer.bestLap = data.bestLap;
+				racer.laps.push(racer.lastLap);
+			}
+		});
 		socket.on('base:fuel', function (data) {
 			console.log('base:fuel');
 			if ($scope.digi.baseReady) {
@@ -233,19 +306,6 @@ angular.module('fs.digiSlot')
 					var car = data.cars[racer.carNumber - 1];
 					racer.fuel = car.fuel;
 				}
-			}
-		});
-
-		socket.on('base:result', function (data) {
-			console.log('base:result');
-			if ($scope.digi.baseReady) {
-				var racer = $scope.digi.race.racers[data.carNumber-1];
-
-				racer.lap = data.lap;
-				racer.lastLap = data.time - racer.time;
-				racer.time = data.time;
-				racer.bestLap = data.bestLap;
-				racer.laps.push(racer.lastLap);
 			}
 		});
 
