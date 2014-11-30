@@ -8,6 +8,16 @@
 	<div ng-show="digi.baseReady">
 		<div class="row">
 			<div class="col-md-4">
+				<label>Track</label>
+			</div>
+			<div class="col-md-4">
+				<select class="form-control" ng-model="digi.race.track" ng-options="track.name for track in tracks">
+					<option value="">Track</option>
+				</select>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-4">
 				<label>Mode</label>
 			</div>
 			<div class="col-md-4">

@@ -191,4 +191,15 @@ router.post('/deleteTrack', function (req, res) {
 	});
 });
 
+router.post('/recordLap', function (req, res) {
+	var newLap = req.body.lap;
+
+	dao.connect(function (db, cleanup) {
+		dao.insertLap(db, newLap, function (data) {
+			res.json(data);
+			cleanup();
+		})
+	});
+});
+
 module.exports = router;

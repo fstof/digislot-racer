@@ -122,9 +122,10 @@ dao.findLapsForTrack = function (db, track, callback) {
 		callback(docs);
 	});
 };
+
 dao.insertLap = function (db, lap, callback) {
 	var laps = db.collection('laps');
-	laps.insert(track, function (err, result) {
+	laps.insert(lap, function (err, result) {
 		console.log("insert lap succeeded: " + (err == null));
 		callback(result);
 	});

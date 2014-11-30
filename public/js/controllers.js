@@ -180,8 +180,16 @@ angular.module('fs.digiSlot')
 				$scope.cars = res.data;
 			});
 		};
+		$scope.loadTracks = function () {
+			var tracksPromise = DataService.getTracks();
+			tracksPromise.then(function (res) {
+				console.log('then ' + res);
+				$scope.tracks = res.data;
+			});
+		};
 		$scope.loadCars();
 		$scope.loadDrivers();
+		$scope.loadTracks();
 
 		$scope.addRacer = function () {
 			$scope.digi.race.racers.push({
