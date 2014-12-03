@@ -49,4 +49,16 @@ angular.module('fs.digiSlot')
 		this.deleteTrack = function (track) {
 			return $http.post('/api/deleteTrack', {track: track});
 		};
+
+		this.recordLap = function (driver, car, track, lapTime) {
+			return $http.post('/api/recordLap', {
+				driver: driver,
+				car: car,
+				track: track,
+				lapTime: lapTime
+			});
+		};
+		this.getAllLaps = function () {
+			return $http.get('/api/allLaps', {});
+		}
 	});

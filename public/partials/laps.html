@@ -1,0 +1,18 @@
+<div class="container-fluid">
+	<h1>Laps</h1>
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-sm-3"><h4>Driver</h4></div>
+			<div class="col-sm-3"><h4>Car</h4></div>
+			<div class="col-sm-3"><h4>Track</h4></div>
+			<div class="col-sm-3"><h4>Time</h4></div>
+		</div>
+		<div ng-repeat="lap in laps | orderBy:'lapTime':false" class="row table-bordered">
+			<div class="col-sm-3">{{lap.driver.name}}</div>
+			<div class="col-sm-3">{{lap.car.name}}</div>
+			<div class="col-sm-3">{{lap.track.name}}</div>
+			<div class="col-sm-3">{{lap.lapTime | nincoTimeFormat}}</div>
+		</div>
+	</div>
+</div>
+

@@ -163,6 +163,12 @@ angular.module('fs.digiSlot')
 		}
 	})
 
+	.controller('LapsController', function ($scope, DataService) {
+		DataService.getAllLaps().then(function (res) {
+			$scope.laps = res.data;
+		})
+	})
+
 	.controller('NewRaceController', function ($scope, $location, digi, DataService, socket) {
 		$scope.digi = digi;
 
@@ -251,12 +257,12 @@ angular.module('fs.digiSlot')
 			$location.path('race');
 		};
 
-		$scope.$on("$destroy", function(){
+		$scope.$on("$destroy", function () {
 			socket.removeAllListeners();
 		});
 	})
 
-	.controller('RaceController', function ($scope, $timeout, socket, digi) {
+	.controller('RaceController', function ($scope, $timeout, socket, digi, DataService) {
 		$scope.digi = digi;
 		$scope.startLapCount = false;
 		var timerPromise;
@@ -296,7 +302,7 @@ angular.module('fs.digiSlot')
 				if (!$scope.startLapCount) {
 					$scope.startLapCount = true;
 				}
-				var racer = $scope.digi.race.racers[data.carNumber-1];
+				var racer = $scope.digi.race.racers[data.carNumber - 1];
 
 				racer.lap = Math.abs($scope.digi.race.laps - data.lap);
 				//racer.lap = data.lap;
@@ -304,6 +310,8 @@ angular.module('fs.digiSlot')
 				racer.time = data.time;
 				racer.bestLap = data.bestLap;
 				racer.laps.push(racer.lastLap);
+
+				DataService.recordLap(racer.driver, racer.car, $scope.digi.race.track, racer.lastLap);
 			}
 		});
 		socket.on('base:fuel', function (data) {
@@ -323,7 +331,7 @@ angular.module('fs.digiSlot')
 		socket.on('base:err', function (data) {
 			console.log("ERROR: " + data);
 		});
-		$scope.$on("$destroy", function(){
+		$scope.$on("$destroy", function () {
 			socket.removeAllListeners();
 		});
 	});

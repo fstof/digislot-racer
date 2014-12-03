@@ -5,7 +5,8 @@
 angular.module('fs.digiSlot', [
 	'ngRoute',
 	'btford.socket-io',
-	'ui.bootstrap'
+	'ui.bootstrap',
+	'ui.utils'
 ])
 	.config(function ($routeProvider) {
 		$routeProvider.
@@ -33,21 +34,11 @@ angular.module('fs.digiSlot', [
 				templateUrl: 'partials/track.html',
 				controller: 'TrackController'
 			}).
+			when('/laps', {
+				templateUrl: 'partials/laps.html',
+				controller: 'LapsController'
+			}).
 			otherwise({
 				redirectTo: '/home'
 			});
-	})
-	.filter('nincoTimeFormat', function () {
-
-		return function (timeStr) {
-			timeStr = timeStr.toString();
-
-			var paddedTimeStr = timeStr.length >= 6 ? timeStr : new Array(6 - timeStr.length + 1).join('0') + timeStr;
-
-			var hours = paddedTimeStr.substr(0, 2);
-			var seconds = paddedTimeStr.substr(2, 2);
-			var hundredths = paddedTimeStr.substr(4, 2);
-
-			return hours + ':' + seconds + ':' + hundredths;
-		}
 	});

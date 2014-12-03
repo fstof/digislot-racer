@@ -192,13 +192,26 @@ router.post('/deleteTrack', function (req, res) {
 });
 
 router.post('/recordLap', function (req, res) {
-	var newLap = req.body.lap;
+	var newLap = {
+		driver: req.body.driver,
+		car: req.body.car,
+		track: req.body.track,
+		lapTime: req.body.lapTime
+	};
 
 	dao.connect(function (db, cleanup) {
 		dao.insertLap(db, newLap, function (data) {
 			res.json(data);
 			cleanup();
 		})
+	});
+});
+router.get('/allLaps', function (req, res) {
+	dao.connect(function (db, cleanup) {
+		dao.allLaps(db, function (data) {
+			res.json(data);
+			cleanup();
+		});
 	});
 });
 

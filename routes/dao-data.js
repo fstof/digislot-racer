@@ -130,11 +130,13 @@ dao.insertLap = function (db, lap, callback) {
 		callback(result);
 	});
 };
-//laps = [{
-//	driver_id: 2,
-//	car_id: 2,
-//	track_id: 2,
-//	lapTime: '000321'
-//}];
+dao.allLaps = function (db, callback) {
+	var laps = db.collection('laps');
+	laps.find({}).toArray(function (err, docs) {
+		console.log('found all ' + docs.length + ' laps');
+		console.dir(docs);
+		callback(docs);
+	});
+};
 
 module.exports = dao;
