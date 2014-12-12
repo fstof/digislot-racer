@@ -1,37 +1,38 @@
-<div class="container-fluid">
+<div class="container">
 	<h1>Home</h1>
 
 	<div class="row">
 		<div class="col-md-6">
-			<fieldset class="container-fluid">
+			<fieldset>
 				<legend>Drivers</legend>
 				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="driver in drivers">
-					<div class="col-md-10 control-label">{{driver.name}}</div>
-					<div class="col-md-1"><a ng-click="editDriver(driver)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
-					<div class="col-md-1"><a ng-click="deleteDriver(driver)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
+					<div class="col-md-8 control-label">{{driver.name}}</div>
+					<div class="col-md-2"><button ng-click="editDriver(driver)" class="btn btn-mini btn-default"><i class="glyphicon glyphicon-edit"></i></button></div>
+					<div class="col-md-2"><button ng-click="deleteDriver(driver)" class="btn btn-mini btn-danger"><i class="glyphicon glyphicon-eject"></i></button></div>
 				</div>
 			</fieldset>
 		</div>
 		<div class="col-md-6">
-			<fieldset class="container-fluid">
+
+			<fieldset>
 				<legend>Cars</legend>
 				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="car in cars">
-					<div class="col-md-5">{{car.name}}</div>
-					<div class="col-md-5">{{car.description}}</div>
-					<div class="col-md-1"><a ng-click="editCar(car)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
-					<div class="col-md-1"><a ng-click="deleteCar(car)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
+					<div class="col-md-4">{{car.name}}</div>
+					<div class="col-md-4">{{car.description}}</div>
+					<div class="col-md-2"><button ng-click="editCar(car)" class="btn btn-mini btn-default glyphicon glyphicon-edit"></button></div>
+					<div class="col-md-2"><button ng-click="deleteCar(car)" class="btn btn-mini btn-danger glyphicon glyphicon-eject"></button></div>
 				</div>
 			</fieldset>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-md-6">
-			<fieldset class="container-fluid">
+			<fieldset>
 				<legend>Tracks</legend>
 				<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="track in tracks">
-					<div class="col-md-10">{{track.name}}</div>
-					<div class="col-md-1"><a ng-click="editTrack(track)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
-					<div class="col-md-1"><a ng-click="deleteTrack(track)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
+					<div class="col-md-8">{{track.name}}</div>
+					<div class="col-md-2"><a ng-click="editTrack(track)" class="btn btn-default glyphicon glyphicon-edit"></a></div>
+					<div class="col-md-2"><a ng-click="deleteTrack(track)" class="btn btn-danger glyphicon glyphicon-eject"></a></div>
 				</div>
 			</fieldset>
 		</div>
