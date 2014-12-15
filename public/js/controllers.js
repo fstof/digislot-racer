@@ -290,6 +290,16 @@ angular.module('fs.digiSlot')
 			if ($scope.digi.baseReady) {
 				if ($scope.startLapCount) {
 					$scope.digi.race.currentLap = Math.abs($scope.digi.race.laps - data.laps);
+					for (var k = 0; k < $scope.digi.race.racers.length; k++) {
+						var racer = $scope.digi.race.racers[k];
+						for (var i = 0; i < data.cars.length; i++) {
+							var car = data.cars[i];
+							if (racer.carNumber == car.carNumber) {
+								racer.position = car.position;
+								break;
+							}
+						}
+					}
 				} else {
 					$scope.digi.race.laps = data.laps;
 					$scope.digi.race.currentLap = 0;
@@ -302,14 +312,24 @@ angular.module('fs.digiSlot')
 				if (!$scope.startLapCount) {
 					$scope.startLapCount = true;
 				}
-				var racer = $scope.digi.race.racers[data.carNumber - 1];
+				var racer = null;
+				for (var k = 0; k < $scope.digi.race.racers.length; k++) {
+					racer = $scope.digi.race.racers[k];
+					if (racer.carNumber == data.carNumber) {
+						break;
+					}
+					racer = null;
+				}
 
 				racer.lap = Math.abs($scope.digi.race.laps - data.lap);
-				//racer.lap = data.lap;
 				racer.lastLap = data.time - racer.time;
 				racer.time = data.time;
 				racer.bestLap = data.bestLap;
 				racer.laps.push(racer.lastLap);
+
+				if (racer.bestLap < $scope.digi.race.bestLap || $scope.digi.race.bestLap == 0) {
+					$scope.digi.race.bestLap = racer.bestLap;
+				}
 
 				DataService.recordLap(racer.driver, racer.car, $scope.digi.race.track, racer.lastLap);
 			}

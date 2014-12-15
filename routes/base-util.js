@@ -65,8 +65,8 @@ var baseUtil = {
 		for (var k = 1; k < split.length; k++) {
 			finishLinePacket.cars.push({
 				carNumber: k,
-				position: Number(split[1].charAt(0)),
-				speed: split[1].charAt(1)
+				position: Number(split[k].charAt(0)),
+				speed: split[k].charAt(1)
 			});
 		}
 		return finishLinePacket;

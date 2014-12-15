@@ -15,7 +15,7 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-12">
-							<h1>Best Lap: {{digi.race.bestLap | number : 2}}</h1>
+							<h1>Best Lap: {{digi.race.bestLap | nincoTimeFormat}}</h1>
 						</div>
 					</div>
 				</div>
@@ -44,8 +44,8 @@
 			<div class="col-sm-2"><h4>Best Lap</h4></div>
 			<div class="col-sm-1"><h4>Fuel</h4></div>
 		</div>
-		<div ng-repeat="racer in digi.race.racers | orderBy:'pos':false" class="row table-bordered">
-			<div class="col-sm-1">{{racer.pos}}</div>
+		<div ng-repeat="racer in digi.race.racers | orderBy:'position':false" class="row table-bordered">
+			<div class="col-sm-1">{{racer.position}}</div>
 			<div class="col-sm-1">{{racer.carNumber}}</div>
 			<div class="col-sm-1">{{racer.lap}}</div>
 			<div class="col-sm-2">{{racer.driver.name}}</div>
