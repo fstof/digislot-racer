@@ -3,6 +3,7 @@
 angular.module('fs.digiSlot')
 	.factory('digi', function () {
 		return {
+			baseReady: false,
 			race: {
 				track: null,
 				running: false,

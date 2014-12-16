@@ -214,8 +214,6 @@ angular.module('fs.digiSlot')
 			$scope.digi.race.racers.splice(index, 1);
 		};
 
-		$scope.digi.baseReady = false;
-
 		socket.on('base:program', function (data) {
 			console.log('base:program');
 			$scope.digi.baseReady = true;
@@ -227,25 +225,25 @@ angular.module('fs.digiSlot')
 				$scope.digi.race.mode = data.mode;
 			}
 		});
-		socket.on('base:line', function (data) {
-			console.log('base:line');
-			if ($scope.digi.baseReady) {
-				$scope.digi.race.laps = data.laps;
-				$scope.digi.race.racers = [];
-				for (var k = 0; k < data.cars.length; k++) {
-					$scope.digi.race.racers.push({
-						position: 0,
-						carNumber: data.cars[k].carNumber,
-						lap: 0,
-						time: 0,
-						lastLap: '0',
-						bestLap: '0',
-						fuel: 99,
-						laps: []
-					});
-				}
-			}
-		});
+		//socket.on('base:line', function (data) {
+		//	console.log('base:line');
+		//	if ($scope.digi.baseReady) {
+		//		$scope.digi.race.laps = data.laps;
+		//		$scope.digi.race.racers = [];
+		//		for (var k = 0; k < data.cars.length; k++) {
+		//			$scope.digi.race.racers.push({
+		//				position: 0,
+		//				carNumber: data.cars[k].carNumber,
+		//				lap: 0,
+		//				time: 0,
+		//				lastLap: '0',
+		//				bestLap: '0',
+		//				fuel: 99,
+		//				laps: []
+		//			});
+		//		}
+		//	}
+		//});
 		socket.on('base:raw', function (data) {
 			console.log("raw data: " + data);
 		});
