@@ -38,6 +38,10 @@ angular.module('fs.digiSlot', [
 				templateUrl: 'partials/laps.html',
 				controller: 'LapsController'
 			}).
+			when('/settings', {
+				templateUrl: 'partials/settings.html',
+				controller: 'SettingsController'
+			}).
 			otherwise({
 				redirectTo: '/home'
 			});

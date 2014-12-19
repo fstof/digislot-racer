@@ -1,5 +1,6 @@
 var express = require('express');
 var dao = require('./dao-data');
+var settings = require('./dao-settings');
 var router = express.Router();
 
 router.get('/cars', function (req, res) {
@@ -209,6 +210,24 @@ router.post('/recordLap', function (req, res) {
 router.get('/allLaps', function (req, res) {
 	dao.connect(function (db, cleanup) {
 		dao.allLaps(db, function (data) {
+			res.json(data);
+			cleanup();
+		});
+	});
+});
+
+router.get('/getSettings', function (req, res) {
+	settings.connect(function (db, cleanup) {
+		settings.getSettings(db, function (data) {
+			res.json(data[0]);
+			cleanup();
+		});
+	});
+});
+router.post('/saveSettings', function (req, res) {
+	var newSettings = req.body.settings;
+	settings.connect(function (db, cleanup) {
+		settings.saveSettings(db, newSettings, function (data) {
 			res.json(data);
 			cleanup();
 		});

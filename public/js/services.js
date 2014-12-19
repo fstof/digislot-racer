@@ -60,5 +60,12 @@ angular.module('fs.digiSlot')
 		};
 		this.getAllLaps = function () {
 			return $http.get('/api/allLaps', {});
-		}
+		};
+
+		this.getSettings = function () {
+			return $http.get('/api/getSettings', {});
+		};
+		this.saveSettings = function (settings) {
+			return $http.post('/api/saveSettings', {settings: settings});
+		};
 	});

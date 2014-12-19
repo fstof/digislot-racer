@@ -169,6 +169,20 @@ angular.module('fs.digiSlot')
 		})
 	})
 
+	.controller('SettingsController', function ($scope, $location, DataService) {
+		DataService.getSettings().then(function (res) {
+			$scope.settings = res.data;
+		});
+		$scope.back = function () {
+			$location.path('home');
+		};
+		$scope.save = function () {
+			DataService.saveSettings($scope.settings).then(function (res) {
+				$location.path('home');
+			});
+		}
+	})
+
 	.controller('NewRaceController', function ($scope, $location, digi, DataService, socket) {
 		$scope.digi = digi;
 
