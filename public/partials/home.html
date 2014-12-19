@@ -7,7 +7,7 @@
 				<div class="panel-heading"><h3 class="panel-title">Drivers</h3></div>
 				<div class="panel-body">
 					<div class="container-fluid">
-						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="driver in drivers">
+						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="driver in digi.lookups.drivers">
 							<div class="col-md-8 control-label">{{driver.name}}</div>
 							<div class="col-md-2"><button ng-click="editDriver(driver)" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></button></div>
 							<div class="col-md-2"><button ng-click="deleteDriver(driver)" class="btn btn-danger"><i class="glyphicon glyphicon-eject"></i></button></div>
@@ -22,7 +22,7 @@
 				<div class="panel-heading"><h3 class="panel-title">Cars</h3></div>
 				<div class="panel-body ">
 					<div class="container-fluid">
-						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="car in cars">
+						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="car in digi.lookups.cars">
 							<div class="col-md-4">{{car.name}}</div>
 							<div class="col-md-4">{{car.description}}</div>
 							<div class="col-md-2"><button ng-click="editCar(car)" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></button></div>
@@ -40,7 +40,7 @@
 				<div class="panel-heading"><h3 class="panel-title">Tracks</h3></div>
 				<div class="panel-body">
 					<div class="container-fluid">
-						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="track in tracks">
+						<div class="row" ng-class="{even: $even, odd: $odd}" ng-repeat="track in digi.lookups.tracks">
 							<div class="col-md-8">{{track.name}}</div>
 							<div class="col-md-2"><button ng-click="editTrack(track)" class="btn btn-default"><i class="glyphicon glyphicon-edit"></i></button></div>
 							<div class="col-md-2"><button ng-click="deleteTrack(track)" class="btn btn-danger"><i class="glyphicon glyphicon-eject"></i></button></div>

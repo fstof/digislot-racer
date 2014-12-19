@@ -15,7 +15,7 @@
 				<label>Track</label>
 			</div>
 			<div class="col-md-4">
-				<select class="form-control" ng-model="digi.race.track" ng-options="track.name for track in tracks">
+				<select class="form-control" ng-model="digi.race.track" ng-options="track.name for track in digi.lookups.tracks">
 					<option value="">Track</option>
 				</select>
 			</div>
@@ -77,12 +77,12 @@
 					</select>
 				</div>
 				<div class="col-md-2">
-					<select class="form-control" ng-model="racer.driver" ng-options="driver.name for driver in drivers">
+					<select class="form-control" ng-model="racer.driver" ng-options="driver.name for driver in digi.lookups.drivers">
 						<option value="">Driver</option>
 					</select>
 				</div>
 				<div class="col-md-2">
-					<select class="form-control" ng-model="racer.car" ng-options="car.name for car in cars">
+					<select class="form-control" ng-model="racer.car" ng-options="car.name for car in digi.lookups.cars">
 						<option value="">Car</option>
 					</select>
 				</div>

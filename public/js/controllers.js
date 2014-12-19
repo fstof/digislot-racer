@@ -14,7 +14,7 @@ angular.module('fs.digiSlot')
 			var driversPromise = DataService.getDrivers();
 			driversPromise.then(function (res) {
 				console.log('then ' + res);
-				$scope.drivers = res.data;
+				$scope.digi.lookups.drivers = res.data;
 			});
 			driversPromise.catch(function (res) {
 				console.log('catch ' + res);
@@ -39,7 +39,7 @@ angular.module('fs.digiSlot')
 			var carsPromise = DataService.getCars();
 			carsPromise.then(function (res) {
 				console.log('then ' + res);
-				$scope.cars = res.data;
+				$scope.digi.lookups.cars = res.data;
 			});
 			carsPromise.catch(function (data) {
 				console.log('catch ' + data);
@@ -64,7 +64,7 @@ angular.module('fs.digiSlot')
 			var tracksPromise = DataService.getTracks();
 			tracksPromise.then(function (res) {
 				console.log('then ' + res);
-				$scope.tracks = res.data;
+				$scope.digi.lookups.tracks = res.data;
 			});
 			tracksPromise.catch(function (data) {
 				console.log('catch ' + data);
@@ -85,9 +85,15 @@ angular.module('fs.digiSlot')
 			$location.path('track');
 		};
 
-		$scope.loadCars();
-		$scope.loadDrivers();
-		$scope.loadTracks();
+		if (!$scope.digi.lookups.cars) {
+			$scope.loadCars();
+		}
+		if (!$scope.digi.lookups.drivers) {
+			$scope.loadDrivers();
+		}
+		if (!$scope.digi.lookups.tracks) {
+			$scope.loadTracks();
+		}
 	})
 
 	.controller('DriverController', function ($scope, $location, DataService) {
@@ -108,6 +114,7 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.driver = null;
+					$scope.digi.lookups.drivers = null;
 					$location.path('home');
 				}
 			});
@@ -133,6 +140,7 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.car = null;
+					$scope.digi.lookups.cars = null;
 					$location.path('home');
 				}
 			});
@@ -157,6 +165,7 @@ angular.module('fs.digiSlot')
 			savePromise.then(function (res) {
 				if (res.data.success) {
 					$scope.digi.track = null;
+					$scope.digi.lookups.tracks = null;
 					$location.path('home');
 				}
 			});
@@ -186,30 +195,27 @@ angular.module('fs.digiSlot')
 	.controller('NewRaceController', function ($scope, $location, digi, DataService, socket) {
 		$scope.digi = digi;
 
-		$scope.loadDrivers = function () {
-			var driversPromise = DataService.getDrivers();
-			driversPromise.then(function (res) {
-				console.log('then ' + res);
-				$scope.drivers = res.data;
-			});
+		//if (!$scope.digi.lookups.cars) {
+		//	$scope.loadCars();
+		//}
+		//if (!$scope.digi.lookups.drivers) {
+		//	$scope.loadDrivers();
+		//}
+		//if (!$scope.digi.lookups.tracks) {
+		//	$scope.loadTracks();
+		//}
+		$scope.cleanOldData = function () {
+			for (var k = 0; k < $scope.digi.race.racers.length; k++) {
+				$scope.digi.race.racers[k].position = 0;
+				$scope.digi.race.racers[k].lap = 0;
+				$scope.digi.race.racers[k].time = 0;
+				$scope.digi.race.racers[k].lastLap = '0';
+				$scope.digi.race.racers[k].bestLap = '0';
+				$scope.digi.race.racers[k].fuel = 99;
+				$scope.digi.race.racers[k].laps = [];
+			}
 		};
-		$scope.loadCars = function () {
-			var carsPromise = DataService.getCars();
-			carsPromise.then(function (res) {
-				console.log('then ' + res);
-				$scope.cars = res.data;
-			});
-		};
-		$scope.loadTracks = function () {
-			var tracksPromise = DataService.getTracks();
-			tracksPromise.then(function (res) {
-				console.log('then ' + res);
-				$scope.tracks = res.data;
-			});
-		};
-		$scope.loadCars();
-		$scope.loadDrivers();
-		$scope.loadTracks();
+		$scope.cleanOldData();
 
 		$scope.addRacer = function () {
 			$scope.digi.race.racers.push({

@@ -15,6 +15,7 @@ angular.module('fs.digiSlot')
 				bestLap: '000000',
 				maxFuel: 100,
 				racers: []
-			}
+			},
+			lookups: {}
 		};
 	});
