@@ -13,21 +13,15 @@ Cable to connect the base to the PC (PS2 -> Serial/USB). More info [here](http:/
 
 ## Installation
 - Install Node.js
-- Install Bower (command line)
-```
-$ npm install -g bower
-```
-- Download and extract the zip of this project (~/digislot-racer)
-- Install dependencies (command line)
-```
-$ cd ~/digislot-racer
-$ bower install
-$ npm install
-```
+- Download and extract the [latest release](https://github.com/fstof/digislot-racer/releases) of this project
 
 ## Running
-- Start the Node.js server
+- Start the app
 ```
-$ npm start
+- Windows -
+digislot.bat
+
+- Mac / Linux -
+$ digislot.sh
 ```
 - Open your browser to [http://localhost:3000](http://localhost:3000)

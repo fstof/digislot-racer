@@ -1,8 +1,12 @@
 #!/usr/bin/env node
 var debug = require('debug')('NodeSocket');
 var app = require('../app');
+var open = require('open');
 
 //app.set('port', process.env.PORT || 3000);
 app.listen(process.env.PORT || 3000, function () {
   debug('Express server listening on port ' + app.address().port);
 });
+
+console.log('Launch the browser! [http://localhost:3000]');
+open("http://localhost:3000");

@@ -15,6 +15,7 @@
     "ejs": "~0.8.5",
     "socket.io": "^1.2.0",
     "tingodb": "*",
-    "serialport": "*"
+    "serialport": "*",
+    "open": "*"
   }
 }
