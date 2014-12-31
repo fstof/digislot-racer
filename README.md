@@ -1,5 +1,13 @@
 # Race management for Ninco N-Digital slot cars
 
+## What can it do?
+- Add/Remove/Edit
+ --Cars
+ --Drivers
+ --Tracks
+- Start races and view live race details of all racers
+- Store and view history of all laps of all racers (This might be a little too much :-) )
+
 ## Works with
 Ninco N-Digital power base (firmware v1.08)
 
