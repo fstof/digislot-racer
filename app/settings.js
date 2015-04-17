@@ -1,5 +1,5 @@
 var debug = require('debug')('app:settings');
-var dao = require('./dao-settings');
+var dao = require('./dao/dao-settings');
 
 // defaults until we load it from disk
 var settings = {
@@ -9,7 +9,7 @@ var settings = {
 settings.load = function () {
 	dao.connect(function (db, cleanup) {
 		dao.getSettings(db, function (data) {
-			if (data.length > 0) {
+			if (data && data.length > 0) {
 				settings.serialPort = data[0].serialPort;
 				cleanup();
 			} else {

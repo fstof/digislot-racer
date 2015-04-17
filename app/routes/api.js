@@ -1,6 +1,6 @@
 var express = require('express');
-var dao = require('./dao-data');
-var settings = require('./dao-settings');
+var dao = require('../dao/dao-data');
+var settings = require('../dao/dao-settings');
 var router = express.Router();
 
 router.get('/cars', function (req, res) {

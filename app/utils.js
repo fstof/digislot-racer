@@ -25,7 +25,7 @@ var resultPacket = {
 	bestLap: 0
 };
 
-var baseUtil = {
+var utils = {
 	toPacket: function (data) {
 		if (data.charAt(0) == 'M') {		// Mode packet MX <CR> eg M2 <CR>
 			return this.buildModePacket(data.substr(1));
@@ -100,7 +100,13 @@ var baseUtil = {
 		resultPacket.bestLap = split[3];
 
 		return resultPacket;
+	},
+
+	padStr: function (string, len, filler) {
+		string = string.toString();
+		filler = filler || '0';
+		return string.length >= len ? string : new Array(len - string.length + 1).join(filler) + string;
 	}
 };
 
-module.exports = baseUtil;
+module.exports = utils;

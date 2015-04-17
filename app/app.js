@@ -11,10 +11,10 @@ app.use(httpLogger('dev'));
 app.use(bodyParser.json());
 app.use(express.static('public'));
 
-var settings = require('./routes/settings');
+var settings = require('./settings');
 settings.load();
 
-io.sockets.on('connection', require('./routes/socket')); // Handle http socket connections
+io.sockets.on('connection', require('./socket')); // Handle http socket connections
 app.use('/api', require('./routes/api')); // Map API's
 
 module.exports = http;
