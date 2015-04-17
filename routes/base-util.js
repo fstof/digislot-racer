@@ -1,3 +1,5 @@
+var debug = require('debug')('app:base-util');
+
 var modePacket = {
 	type: 'mode',
 	lights: false,
@@ -36,7 +38,7 @@ var baseUtil = {
 		} else if (data.charAt(0) == 'D') {	// Result Package Daaaa, RRRR, GGGGGG, SSSSSS <CR> eg D0008,0004,000523,000213 <CR>
 			return this.buildResultPacket(data.substr(1));
 		}
-		console.log('Unknown Packet');
+		debug('Unknown Packet');
 		return {};
 	},
 

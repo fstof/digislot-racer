@@ -1,3 +1,4 @@
+var debug = require('debug')('app:serial');
 var settings = require('./settings');
 // Initialize serial port
 var serialPort = require("serialport");
@@ -6,7 +7,7 @@ var SerialPort = serialPort.SerialPort;
 var sp = {
 	lineIdentifiers: ['M', 'P', 'L', 'F', 'D'],
 	port: function () {
-		console.log('Creating SerialPort');
+		debug('Creating SerialPort');
 		var port = new SerialPort(settings.serialPort, {
 			baudRate: 1200,
 			dataBits: 7,
@@ -17,10 +18,10 @@ var sp = {
 		}, false);
 
 		port.on("open", function () {
-			console.log('SerialPort opened');
+			debug('SerialPort opened');
 		});
 		port.on("close", function () {
-			console.log('SerialPort closed');
+			debug('SerialPort closed');
 		});
 		return port;
 	}

@@ -1,64 +1,20 @@
+var debug = require('debug')('app:app');
 var express = require('express');
-var path = require('path');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 var app = express();
-var http = require('http').Server(app);
+var http = require('http').createServer(app);
 var io = require('socket.io')(http);
+var path = require('path');
+var httpLogger = require('morgan');
+var bodyParser = require('body-parser');
 
-var api = require('./routes/api');
-
-// view engine setup
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(logger('dev'));
+app.use(httpLogger('dev'));
 app.use(bodyParser.json());
-
-app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static('public'));
 
 var settings = require('./routes/settings');
 settings.load();
 
-// Socket.io Communication
-io.sockets.on('connection', require('./routes/socket'));
-
-app.use('/api', api);
-
-// catch 404 and forward to error handler
-app.use(function (req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
-});
-
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-	app.use(function (err, req, res, next) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
-	});
-}
-
-// production error handler
-// no stacktraces leaked to user
-app.use(function (err, req, res, next) {
-	res.status(err.status || 500);
-	res.render('error', {
-		message: err.message,
-		error: {}
-	});
-});
-
+io.sockets.on('connection', require('./routes/socket')); // Handle http socket connections
+app.use('/api', require('./routes/api')); // Map API's
 
 module.exports = http;
-//module.exports = app;

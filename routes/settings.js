@@ -1,3 +1,4 @@
+var debug = require('debug')('app:settings');
 var dao = require('./dao-settings');
 
 // defaults until we load it from disk
@@ -12,9 +13,9 @@ settings.load = function () {
 				settings.serialPort = data[0].serialPort;
 				cleanup();
 			} else {
-				console.log('no settings found... saving initial')
+				debug('no settings found... saving initial');
 				dao.saveSettings(db, settings, function (data) {
-					console.log('settings saved')
+					debug('settings saved');
 					cleanup();
 				});
 			}

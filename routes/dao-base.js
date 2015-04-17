@@ -1,3 +1,4 @@
+var debug = require('debug')('app:dao-base');
 var Engine = require('tingodb')();
 
 var dao = {};
@@ -5,9 +6,9 @@ var dao = {};
 dao.connect = function (callback) {
 	var db = new Engine.Db('./data', {});
 
-	console.log('Connected to embeded db: ' + (db != null));
+	debug('Connected to embeded db: ' + (db != null));
 	callback(db, function () {
-		console.log('closing embeded db');
+		debug('closing embeded db');
 		db.close();
 	});
 };

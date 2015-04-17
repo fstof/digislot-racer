@@ -1,17 +1,18 @@
 /*
  * Serve content over a socket
  */
+var debug = require('debug')('app:socket');
 var sp = require('./serial');
 var util = require('./base-util');
 
 var socketConnect = function (socket) {
-	console.log('Socket connected id = ' + socket.id);
+	debug('Socket connected id = ' + socket.id);
 
 	var serialPort = sp.port();
 
 	serialPort.open(function (error) {
 		if (error) {
-			console.log('failed to open serial port: ' + error);
+			debug('failed to open serial port: ' + error);
 			socket.emit('base:err', 'failed to open serial port: ' + error);
 		} else {
 			serialPort.on('data', function (data) {
@@ -20,7 +21,7 @@ var socketConnect = function (socket) {
 				}
 				var packet = util.toPacket(data);
 
-				console.log('emitting received data: ' + data);
+				debug('emitting received data: ' + data);
 				socket.emit('base:raw', data);
 				socket.emit('base:' + packet.type, packet);
 			});
@@ -28,11 +29,11 @@ var socketConnect = function (socket) {
 	});
 
 	socket.on('disconnect', function () {
-		console.log('Socket disconnected');
+		debug('Socket disconnected');
 		try {
 			serialPort.close();
 		} catch (err) {
-			console.log('could not close SerialPort: ' + err)
+			debug('could not close SerialPort: ' + err)
 		}
 	});
 
